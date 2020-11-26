@@ -1,0 +1,28 @@
+<h1 style="margin-top: 50px; text-align: center;">Prueba GET</h1>
+<hr>
+
+<div class="cont row animate__animated animate__fadeIn">
+    <div class="col">
+        <form autocomplete="off" [formGroup]="form"  (ngSubmit)="enviar()">
+            <div class="form-group">
+                <label>Dato</label>
+                <input type="text" class="form-control" formControlName="dato" placeholder="Dato a encriptar">
+            </div>
+            <hr>
+            <br>
+            <div class="form-group text-center">
+                <button type="submit"
+                        class="btn btn-warning w-25">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Encriptar                    
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center" *ngIf="resultado">
+            <p>Dato enviado: {{datoEnviado}}</p>
+            <p>Dato encriptado: {{datoEncriptado}}</p>
+            Dato desencriptado recibido: {{resultado}}
+        </div>
+    </div>
+</div>

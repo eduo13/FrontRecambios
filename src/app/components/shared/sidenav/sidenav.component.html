@@ -1,0 +1,49 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+        <mat-toolbar style="font-size: 2em;">Menu</mat-toolbar>
+        <mat-nav-list>
+            <hr>
+            <a mat-list-item href="/home">Home</a>
+
+            <div *ngIf="permisos(1)">
+                <hr>
+                <a mat-list-item href="/gestionUsuario">Gestión Usuarios</a>
+                <hr>
+                <a mat-list-item href="/gestionArticulo">Gestión Articulo</a>
+                <hr>
+                <!--                 <a mat-list-item href="/gestionArticulo/addstock">Añadir Stock</a> -->
+                <hr>
+                <a mat-list-item href="/gestionArticulo/listadoArticulo">Listado completo de Articulos</a>
+                <hr>
+                <a mat-list-item href="/gestionPedido/listadoPedidos">Listado completo de Pedidos</a>
+                <hr>
+                <a mat-list-item href="/encryptGet">Encriptar por GET</a>
+
+            </div>
+            <div *ngIf="permisos(2)">
+                <hr>
+                <a mat-list-item href="/gestionArticulo/addstock">Añadir Stock</a>
+                <hr>
+            </div>
+            <div *ngIf="permisos(3)">
+                <a mat-list-item href="/gestionPedido">Crear Pedido</a>
+                <hr>
+            </div>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+            <a href="/home" style="padding: 30px; color: black;"><i class="fas fa-cogs"></i> Recambios Víctor</a>
+            <button class="btn btn-danger" style="margin-left: 75%;" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </mat-toolbar>
+        <div class="container main-container">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!--Footer-->
+        <app-footer></app-footer>
+    </mat-sidenav-content>
+</mat-sidenav-container>

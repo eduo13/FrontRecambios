@@ -1,0 +1,42 @@
+<div class="cont">
+    <h1 class="display-4 text-center">Gestión de Stock</h1>
+    <br>
+    <hr>
+    <br>
+    <div class="animate__animated animate__fadeIn">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Añadir Stock</h2>
+                <hr>
+
+                <div class="row">
+                    <div class="col">
+                        <form autocomplete="off" [formGroup]="forma" (ngSubmit)="addStock()">
+
+                            <!--Stock-->
+                            <div class="form-group">
+                                <label>Stock</label>
+                                <input type="number" class="form-control" formControlName="stock" placeholder="Stock a añadir">
+                            </div>
+
+                            <hr>
+                            <br>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-warning w-25">
+                                    <i class="fas fa-user-plus"></i>
+                                    Aceptar
+                                </button>
+                            </div>
+                        </form>
+                        <div class="text-center" *ngIf="resultado">
+                            Resultado: {{resultado.Mensaje}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <app-lista-articulo></app-lista-articulo>
+            </div>
+        </div>
+    </div>
+</div>

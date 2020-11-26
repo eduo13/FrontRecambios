@@ -1,0 +1,104 @@
+<h2 style="text-align: center; font-size: 3em; padding: 20px;"><i class="fas fa-plus-square"></i> Crear Pedido </h2>
+<hr>
+<br>
+<h2 style="text-align: center;">Datos del pedido</h2>
+<div class="row">
+    <div class="col">
+        <form autocomplete="off" [formGroup]="forma" (ngSubmit)="crear()">
+
+            <!--Persona de Contacto-->
+            <div class="form-group">
+                <label>Persona de Contacto</label>
+                <input type="text" class="form-control" formControlName="contacto" placeholder="Persona de contacto" [class.is-invalid]="contactoNoValido">
+            </div>
+
+            <!--Calle-->
+            <div class="form-group">
+                <label>Calle</label>
+                <input type="text" class="form-control" formControlName="calle" placeholder="Calle" [class.is-invalid]="calleNoValido">
+            </div>
+
+            <!--Provincia y Población-->
+            <div class="form-row">
+                <div class="form-group col-md-7">
+                    <label>Provincia</label>
+                    <input type="text" class="form-control" formControlName="provincia" placeholder="Provincia" [class.is-invalid]="provinciaNoValido">
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Población</label>
+                    <input type="text" class="form-control" formControlName="poblacion" placeholder="Población" [class.is-invalid]="poblacionNoValido">
+                </div>
+            </div>
+
+            <!--Codigo Postal, Número y Teléfono-->
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>Código postal</label>
+                    <input type="number" class="form-control" formControlName="codigopostal" placeholder="Código Postal" [class.is-invalid]="codigopostalNoValido">
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Número</label>
+                    <input type="number" class="form-control" formControlName="numero" placeholder="Número" [class.is-invalid]="numeroNoValido">
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Teléfono</label>
+                    <input type="number" class="form-control" formControlName="telefono" placeholder="Teléfono" [class.is-invalid]="telefonoNoValido">
+                </div>
+            </div>
+
+            <hr>
+            <br>
+            <h2 style="text-align: center;">Articulos a pedir</h2>
+            <br>
+            <div>
+                <div class="row">
+                    <div class="form group col-md-5">
+                        <select class="form-control" formControlName="selectArticulo">
+                              <option value="0" disabled selected>Selecciona un articulo</option>
+                              <option *ngFor="let articulo of gestionArticuloService.list" value="{{articulo.ID_Articulo}}-{{articulo.Nombre}}">{{articulo.Nombre}}</option>
+                          </select>
+                    </div>
+
+                    <!-- Cantidad del articulo -->
+                    <div class="form group col-md-4">
+                        <input type="number" formControlName="cantidad" class="form-control" placeholder="Cantidad a pedir del articulo" [class.is-invalid]="cantidadNoValido">
+                    </div>
+
+                    <!-- Botón borrar -->
+                    <!--         <div class="form group col-md-3" formControlName="buttonArt">
+                            <button type="button" class="btn btn-danger form-control" (click)="borrarArticulo(i)">Borrar de la lista</button>
+                        </div> -->
+                    <div class="form group col-md-3">
+                        <button type="button" class="btn btn-outline-warning btn-block" (click)="agregarArticulo()">Agregar articulo</button>
+                    </div>
+                </div>
+                <table class="table my-4 table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id Articulo</th>
+                            <th scope="col">Articulo</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let articulo of listaArticulos">
+                            <td scope="row">{{articulo.ID_Articulo}}</td>
+                            <td scope="row">{{articulo.Nombre}}</td>
+                            <td scope="row">{{articulo.Cantidad}}</td>
+                            <td scope="row">boton eliminar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr>
+            <button type="submit" class="btn btn-warning btn-block form-group" style="margin-bottom: 30px; margin-top: 30px;">Crear Pedido</button>
+
+        </form>
+
+        <div class="text-center" *ngIf="resultado">
+            Resultado: {{resultado.Mensaje}}
+        </div>
+    </div>
+</div>
