@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     private formbuilder: FormBuilder,
     private loginService: AuthService,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
     ) {
     this.getState = this.store.select(selectLoginState);
     this.formulario = this.formbuilder.group({
@@ -51,10 +51,9 @@ export class LoginComponent implements OnInit {
 
     this.loginService.comprobarLogin(datosL).subscribe(data => {
       if(data.Token != null){
-        this.resultado = "Usuario logado: " + data.Email;
         this.router.navigateByUrl('/home');
       }else{
-        this.resultado = data.mensaje;
+        this.resultado = data.Mensaje;
       }
 
       this.formulario.reset();

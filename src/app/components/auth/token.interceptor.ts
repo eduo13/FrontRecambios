@@ -1,22 +1,22 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-
-import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-
+import { HandleErrorService } from './HandleErrorService';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+
+  constructor(private router: Router, private error: HandleErrorService) {}
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log("interceptando..." + request.url);
@@ -33,17 +33,19 @@ export class TokenInterceptor implements HttpInterceptor {
       request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
     }
 
-    return next.handle(request).pipe(
-      catchError((err: HttpErrorResponse) => {
-
-        if (err.status === 401) {
-          this.router.navigateByUrl('/login');
+    return new Observable((observer) => {
+      next.handle(request).subscribe(
+        (res: HttpResponse<any>) => {
+          if (res instanceof HttpResponse) {
+            observer.next(res);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          console.log("Error tipo = " + err.status);
+          this.error.handleError(err);
         }
-
-        return throwError( err );
-
-      })
-    );
+      );
+    });
   }
 }
 

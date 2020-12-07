@@ -3,7 +3,8 @@ import { ArticuloModelo } from '../models/ArticuloModelo';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
-import { EliminarArticulo, ListaArticulo } from '../redux/store/articulo.actions';
+import { EliminarArticulo } from '../redux/store/articulo.actions';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -17,12 +18,18 @@ export class ListaArticuloComponent implements OnInit {
   resultado: any;
 
   constructor(public gestionArticuloService:GestionArticuloService,
-              private store: Store<AppState>) { }
+              private store: Store<AppState>,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.gestionArticuloService.getArticleList();
-    this.gestionArticuloService.getArticulos().subscribe(data => {
-      this.store.dispatch(new ListaArticulo({lista: data}))
+    //this.gestionArticuloService.getArticleList();
+/*     this.gestionArticuloService.getArticulos().subscribe(articulos => {
+      this.articulos = articulos as ArticuloModelo[];
+      console.log(this.articulos);
+      this.store.dispatch(new ListaArticulo({lista: articulos}))
+    }) */
+    this.store.select('articulos').subscribe(listaArticulos => {
+      this.articulos = listaArticulos.articulos
     })
   }
 
@@ -30,9 +37,14 @@ export class ListaArticuloComponent implements OnInit {
     if(confirm('¿Estás seguro de que quieres eliminar este articulo?')){
       this.gestionArticuloService.deleteArticle(id).subscribe(data => {
         this.resultado = data;
-        this.gestionArticuloService.getArticleList();
-        this.store.dispatch(new ListaArticulo({lista: this.gestionArticuloService.list}));
-        this.store.dispatch(new EliminarArticulo({id: id}));
+        if(data['Retcode'] === 0){
+          // this.gestionArticuloService.getArticleList();
+          // this.store.dispatch(new ListaArticulo({lista: this.gestionArticuloService.list}));
+          this.toastr.success("Articulo con id: "+data['Id_articulo']+" se ha eliminado correctamente")
+          this.store.dispatch(new EliminarArticulo({id: id}));
+        }else{
+          this.toastr.error("No se ha podido eliminar el articulo con id: "+id)
+        }
       })
     }
   }

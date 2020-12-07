@@ -6,7 +6,9 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
 import { PerfilUser } from '../models/PerfilUser';
-import { CREAR, EDITAR } from '../redux/store/usuario.actions';
+import { EditarUser, CrearUser } from '../redux/store/usuario.actions';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,9 +23,12 @@ export class CrearUsuarioComponent implements OnInit, OnDestroy {
   upUser: UserModel;
   idUsuario = 0;
 
+
   constructor(private fb: FormBuilder,
               private gestionUsuarioService: GestionUsuarioService,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private toastr: ToastrService,
+              private router: Router) {
 
     this.crearFormulario();
   }
@@ -32,7 +37,6 @@ export class CrearUsuarioComponent implements OnInit, OnDestroy {
     this.suscription = this.gestionUsuarioService.obtenerUsuario$().subscribe(data =>{
       this.upUser = data;
 
-
       this.forma.patchValue({
         usuario: this.upUser.Usuario,
         id_perfil: this.upUser.Id_Perfil,
@@ -40,6 +44,13 @@ export class CrearUsuarioComponent implements OnInit, OnDestroy {
       });
       this.idUsuario = this.upUser.ID_Usuario;
     });
+  }
+  //refresco de la página
+  reloadComponent() {
+    let currentUrl = this.router.url;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
   }
 
   ngOnDestroy(){
@@ -158,10 +169,15 @@ export class CrearUsuarioComponent implements OnInit, OnDestroy {
   agregar(userData: UserModel){
      this.gestionUsuarioService.crearUsuario(userData).subscribe(data => {
       this.resultado = data;
-      if(data['Email'] != null){
-        this.store.dispatch(CREAR(new UserModel(data['ID_Usuario'], data['Usuario'], data['Id_Perfil'], data['Email'], data['Perfil'])));
+      if(data['Id_usuario'] > 0){//si creación correcta
+        userData.ID_Usuario = data['Id_usuario'];//guardamos el id creado
+        this.store.dispatch(new CrearUser(userData));//actualizamos state
+        this.toastr.success("Usuario creado correctamente");
+        this.reloadComponent();//recargamos componente
+      }else{
+        this.toastr.error("No se ha podido crear el usuario");
       }
-      this.gestionUsuarioService.getUsersList();
+      //this.gestionUsuarioService.getUsersList();
       this.forma.reset();
     })
   }
@@ -171,12 +187,15 @@ export class CrearUsuarioComponent implements OnInit, OnDestroy {
      userData.ID_Usuario = this.idUsuario;
       this.gestionUsuarioService.actualizarUser(userData).subscribe(data =>{
       this.resultado = data;
-      this.store.dispatch(EDITAR({
-        id_usuario: this.upUser.ID_Usuario,
-        id_perfil: userData.Id_Perfil,
-        usuario: userData.Usuario,
-        email: userData.Email}));
-      this.gestionUsuarioService.getUsersList();
+      if(data['Retcode'] === 0){//si update correcto
+        this.store.dispatch(new EditarUser({editable: userData}));//actualizamos state
+        this.toastr.success("Usuario actualizado correctamente");
+        this.reloadComponent();//recargamos página
+      }else{
+        this.toastr.error("No se ha podido modificar el usuario");
+      }
+
+      //this.gestionUsuarioService.getUsersList();
       this.forma.reset();
       this.idUsuario = 0;
     });

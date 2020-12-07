@@ -23,7 +23,8 @@ import { Action } from '@ngrx/store';
 export enum PedidoActionTypes {
   CREAR = '[Pedido] Crear Pedido',
   ELIMINAR = '[Pedido] Eliminar Pedido',
-  LISTA_PEDIDOS = '[Pedido] Lista Pedidos'
+  CARGA_PEDIDOS = '[Pedido] Carga Pedidos',
+  VER_PEDIDOS = '[Pedido] Ver Pedidos'
 }
 
 export class CrearPedido implements Action {
@@ -36,15 +37,21 @@ export class EliminarPedido implements Action {
   constructor(public payload: any) {}
 }
 
-export class ListaPedido implements Action {
-  readonly type = PedidoActionTypes.LISTA_PEDIDOS;
+export class CargaPedidos implements Action {
+  readonly type = PedidoActionTypes.CARGA_PEDIDOS;
   constructor(public payload: any) {}
+}
+
+export class VerPedidos implements Action {
+  readonly type = PedidoActionTypes.VER_PEDIDOS;
+  constructor() {}
 }
 
 export type PedidoActions =
   | CrearPedido
   | EliminarPedido
-  | ListaPedido;
+  | CargaPedidos
+  | VerPedidos;
 
 
 

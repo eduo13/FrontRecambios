@@ -18,8 +18,12 @@ export class GestionUsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  getUsersList(){
+/*   getUsersList(){
     this.http.get<UserModel[]>(this.listurl).toPromise().then(data => {this.list = data as UserModel[]});
+  } */
+
+  getUsers(){
+    return this.http.get<UserModel[]>(this.listurl);
   }
 
   deleteUser(id: number): Observable<UserModel>{

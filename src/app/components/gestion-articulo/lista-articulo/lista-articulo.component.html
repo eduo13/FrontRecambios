@@ -19,7 +19,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let article of gestionArticuloService.list">
+        <!-- <tr *ngFor="let article of gestionArticuloService.list"> -->
+        <tr *ngFor="let article of articulos">
             <th scope="row">{{article.ID_Articulo}}</th>
             <td>{{article.Nombre}}</td>
             <td>{{article.Stock}}</td>

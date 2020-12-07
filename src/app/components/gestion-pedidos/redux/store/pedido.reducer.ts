@@ -20,7 +20,7 @@ export function pedidoReducer(state = initialState, action: PedidoActions): Pedi
               console.log("creando pedido")
       return {
         ...state,
-        pedidos: [state.pedidos, action.payload]
+        pedidos: [...state.pedidos, action.payload]
       }
     }
     case PedidoActionTypes.ELIMINAR: {
@@ -30,10 +30,15 @@ export function pedidoReducer(state = initialState, action: PedidoActions): Pedi
           Pedido => Pedido.ID_Pedido !== action.payload.id)
       };
     }
-    case PedidoActionTypes.LISTA_PEDIDOS: {
+    case PedidoActionTypes.CARGA_PEDIDOS: {
       return {
         ...state,
         pedidos: action.payload.lista
+      }
+    }
+    case PedidoActionTypes.VER_PEDIDOS: {
+      return {
+        ...state
       }
     }
     default: {
@@ -44,33 +49,3 @@ export function pedidoReducer(state = initialState, action: PedidoActions): Pedi
 
 
 
-
-/*
-const __pedidoReducer = createReducer(
-  initialState,
-
-  on( actions.AGREGAR, (state,  pedido ) => {
-      return {
-        ...state,
-        pedidos: [...state.pedidos , pedido]
-      }
-  }),
-
-  on( actions.ELIMINAR, (state, { id }) => {
-     return {
-      ...state,
-        ...state.pedidos.filter(pedido => pedido.ID_Pedido !== id),
-      }
-  }),
-
-  on( actions.LISTA_PEDIDOS, (state, { lista }) =>  {
-    return {...state, pedidos : lista}
-  }),
-
-//  on( actions.EDITAR, (state, { lista }) => state = lista ),
-
-);
-
-export function pedidoReducer(state, action) {
-  return __pedidoReducer(state, action);
-} */

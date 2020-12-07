@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LoginFailure, LoginSuccess, Logout } from '../../components/login/redux/store/login.actions';
 import { AppState } from '../../app.reducer';
+import { CargaPedidos } from '../gestion-pedidos/redux/store/pedido.actions';
+import { CargaArticulos } from '../gestion-articulo/redux/store/articulo.actions';
+import { CargaUsers } from '../gestion-usuario/redux/store/usuario.actions';
 
 
 @Injectable({
@@ -36,10 +39,10 @@ export class AuthService {
         this.store.dispatch(new LoginSuccess({token: data['Token'], email: data['Email']}));
         this.userSubject.next(data);
       }else{
-        data["mensaje"] = "Error en las credenciales;";
         this.store.dispatch(new LoginFailure({message: data["mensaje"]}));
 
       }
+      console.log(data)
       return data;
       }));
   }
@@ -47,8 +50,11 @@ export class AuthService {
   logout(){
     localStorage.removeItem('currentUser');
     console.log("se han limpiado los datos del user: " );
-    this.store.dispatch(new Logout());
     this.userSubject.next(null);
+    this.store.dispatch(new CargaPedidos({lista: null}));
+    this.store.dispatch(new CargaArticulos({lista: null}));
+    this.store.dispatch(new CargaUsers({lista: null}));
+    this.store.dispatch(new Logout());
     this.router.navigate(['/login']);
   }
 

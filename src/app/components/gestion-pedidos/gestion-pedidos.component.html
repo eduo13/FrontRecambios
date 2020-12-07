@@ -55,7 +55,7 @@
                     <div class="form group col-md-5">
                         <select class="form-control" formControlName="selectArticulo">
                               <option value="0" disabled selected>Selecciona un articulo</option>
-                              <option *ngFor="let articulo of gestionArticuloService.list" value="{{articulo.ID_Articulo}}-{{articulo.Nombre}}">{{articulo.Nombre}}</option>
+                              <option *ngFor="let articulo of articles" value="{{articulo.ID_Articulo}}-{{articulo.Nombre}}">{{articulo.Nombre}}</option>
                           </select>
                     </div>
 

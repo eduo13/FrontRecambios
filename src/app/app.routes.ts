@@ -21,10 +21,17 @@ const APP_ROUTES: Routes = [
      loadChildren: () => import('./components/gestion-articulo/gestion-articulo.module').then(m => m.GestionArticuloModule),
      canLoad: [AuthServiceCanloadGuard],
      canActivate: [AuthServiceCanActivateGuard],
-     data: { perfiles: [Perfil.Admin, Perfil.Gestor] } },
+     data: { perfiles: [Perfil.Admin] } },
 
     { path: 'gestionPedido',
      loadChildren: () => import('./components/gestion-pedidos/gestion-pedidos.module').then(m => m.GestionPedidosModule),
+    // canLoad: [AuthServiceCanloadGuard],
+     canActivate: [AuthServiceCanActivateGuard],
+    },
+
+    { path: 'gestionStock',
+     loadChildren: () => import('./components/gestion-stock/gestion-stock.module').then(m => m.GestionStockModule),
+     canLoad: [AuthServiceCanloadGuard],
      canActivate: [AuthServiceCanActivateGuard],
      },
 

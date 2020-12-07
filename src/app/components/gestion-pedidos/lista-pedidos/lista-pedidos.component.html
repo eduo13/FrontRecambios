@@ -16,7 +16,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let pedido of gestionPedidosService.list">
+        <!-- <tr *ngFor="let pedido of gestionPedidosService.list"> -->
+        <tr *ngFor="let pedido of pedidos">
             <th scope="row">{{pedido.ID_Pedido}}</th>
             <td scope="row">{{pedido.PersonaContacto}}</td>
             <td scope="row">{{pedido.Provincia}}</td>

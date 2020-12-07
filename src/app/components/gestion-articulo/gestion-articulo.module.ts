@@ -33,8 +33,8 @@ import { AddStockComponent } from './add-stock/add-stock.component';
     ImageUploadModule.forRoot(),
     GESTION_ARTICULO_ROUTING
   ],
+  exports: [ListaArticuloComponent],
   providers: [
-
   ]
 })
 export class GestionArticuloModule { }

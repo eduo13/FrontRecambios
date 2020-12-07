@@ -22,19 +22,19 @@ export class GestionPedidosService {
     return this.http.post<PedidoModelo>(this.createUrl, pedidoData);
   }
 
-  //LISTAR ARTICULOS
+  //LISTAR PEDIDOS
   getPedidosList(){
     this.http.get<PedidoModelo[]>(this.listUrl).toPromise().then(data => {
       this.list = data as PedidoModelo[],
       console.log(this.list)
       });
   }
-    //LISTAR ARTICULOS
-  recuperaPedidos(){
+    //LISTAR PEDIDOS
+  getPedidos(){
     return this.http.get<PedidoModelo[]>(this.listUrl);
   }
 
-    //LISTAR ARTICULOS
+    //LISTAR PEDIDOS
   recuperaPedidosPendientes(){
     return this.http.get<PedidoModelo[]>(this.listUrl).pipe(
       map((pedidos: PedidoModelo[]) => pedidos.filter((pedido: PedidoModelo) => pedido.Estado == "PENDIENTE"))

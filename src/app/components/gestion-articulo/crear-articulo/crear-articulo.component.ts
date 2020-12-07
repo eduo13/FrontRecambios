@@ -5,7 +5,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
-import { CrearArticulo } from '../redux/store/articulo.actions';
+import { EditarArticulo, CrearArticulo } from '../redux/store/articulo.actions';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -24,6 +25,7 @@ export class CrearArticuloComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder,
      private gestionArticuloService: GestionArticuloService,
+     private toastr: ToastrService,
      private store: Store<AppState>) {
     this.crearFormulario();
   }
@@ -131,8 +133,15 @@ export class CrearArticuloComponent implements OnInit, OnDestroy {
     //Llamamos al servicio que agrega el articulo
     this.gestionArticuloService.crearArticulo(articleData).subscribe(data => {
       this.resultado = data;
-      this.gestionArticuloService.getArticleList();
-      this.store.dispatch(new CrearArticulo(articleData))
+      if(data['Retcode'] === 0){
+      //this.gestionArticuloService.getArticleList();
+      articleData.ID_Articulo = data['ID_Articulo'];
+      this.store.dispatch(new CrearArticulo(articleData));
+      this.toastr.success("Articulo añadido correctamente");
+      }else{
+      this.toastr.error("Error al añadir el articulo");
+      }
+
       this.forma.reset();
     })
 
@@ -158,7 +167,11 @@ export class CrearArticuloComponent implements OnInit, OnDestroy {
     //Llamamos al servicio que agrega el articulo
     this.gestionArticuloService.updateArticle(articleData).subscribe(data => {
       this.resultado = data;
-      this.gestionArticuloService.getArticleList();
+      if(data['Retcode'] === 0){
+        this.toastr.success("Articulo actualizado correctamente");
+        this.store.dispatch(new EditarArticulo(articleData));
+      }
+      //this.gestionArticuloService.getArticleList();
       this.forma.reset();
       this.idArticulo = 0;
     })

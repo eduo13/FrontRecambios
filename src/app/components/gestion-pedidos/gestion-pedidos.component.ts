@@ -20,6 +20,7 @@ export class GestionPedidosComponent implements OnInit {
   resultado: any;
   articulosObj: [ArticuloModelo];
   listaArticulos: ArticuloEnLista[] = [];
+  articles: ArticuloModelo[];
 
   constructor(private fb: FormBuilder,
               public gestionPedidosService: GestionPedidosService,
@@ -30,8 +31,15 @@ export class GestionPedidosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.gestionArticuloService.getArticleList();
+    //this.gestionArticuloService.getArticleList();
+    //   this.gestionArticuloService.getArticulos().subscribe(articulos => {
+    //   this.articles = articulos as ArticuloModelo[];
+    //   console.log(this.articles);
+    //   this.store.dispatch(new ListaArticulo({lista: articulos}))
+    // })
+    this.store.select('articulos').subscribe(listaArticulos => {
+      this.articles = listaArticulos.articulos
+    })
   }
 
   //Validators
@@ -115,11 +123,20 @@ export class GestionPedidosComponent implements OnInit {
 
 
     console.log("pedidoData = " + pedidoData.Articulos[0].Nombre);
-    //Llamamos al servicio que agrega el articulo
+    //Llamamos al servicio que agrega el pedido
     this.gestionPedidosService.crearPedido(pedidoData).subscribe(data => {
       this.resultado = data;
-      this.store.dispatch(new CrearPedido(pedidoData));
-      this.toastr.success("Pedido creado correctamente");
+      console.log(data);
+      if(data['Retcode'] === 0 && data['ID_Pedido'] > 0){//si pedido creado correctamente
+        //añadimos id y estado a los datos que iran al store
+        pedidoData.ID_Pedido = data['ID_Pedido'];
+        pedidoData.Estado = data['Estado'];
+        this.store.dispatch(new CrearPedido(pedidoData));
+
+        this.toastr.success("Pedido creado correctamente");
+      }else{
+        this.toastr.error("Error al crear el pedido");
+      }
       this.forma.reset();
     })
 

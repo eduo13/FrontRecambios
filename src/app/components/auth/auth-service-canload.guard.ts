@@ -11,12 +11,13 @@ export class AuthServiceCanloadGuard implements CanLoad {
   canLoad(route: Route ){
       var user = JSON.parse(localStorage.getItem('currentUser'));
       if (user && user.Token != null) {
-        console.log("Comprobando Admin...");
+        console.log("Comprobando Permisos...");
           let url: string = route.path;
           console.log('Url: '+ url + ' perfil = ' + user.IdPerfil);
 
           switch(url){
             case "gestionUsuario":
+            case "gestionArticulo":
             case "listadoPedidos":
               if(user.IdPerfil != 1){
                 console.log("no tiene permiso");
@@ -24,7 +25,7 @@ export class AuthServiceCanloadGuard implements CanLoad {
                 return false;
               }
               break;
-            case "gestionArticulo":
+            case "gestionStock":
               if(user.IdPerfil >2){
                 console.log("no tiene permiso");
                 this.router.navigate(['home']);

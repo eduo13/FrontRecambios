@@ -1,17 +1,41 @@
-//import { Action } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-import { createAction, props } from '@ngrx/store';
-import { UserModel } from '../../models/UserModel';
+export enum UserActionTypes {
+  CREAR = '[User] Crear User',
+  ELIMINAR = '[User] Eliminar User',
+  EDITAR = '[User] Editar User',
+  CARGA_USERS = '[User] Carga Users',
+  VER_USERS = '[User] Ver Users'
+}
 
+export class CrearUser implements Action {
+  readonly type = UserActionTypes.CREAR;
+  constructor(public payload: any) {}
+}
 
-  export const CREAR = createAction(
-    '[User] Crear User',
-    props<UserModel>());
+export class EliminarUser implements Action {
+  readonly type = UserActionTypes.ELIMINAR;
+  constructor(public payload: any) {}
+}
 
-  export const EDITAR = createAction(
-    '[User] Editar User',
-    props<{id_usuario: number, id_perfil: number, usuario: string, email: string}>());
+export class EditarUser implements Action {
+  readonly type = UserActionTypes.EDITAR;
+  constructor(public payload: any) {}
+}
 
-  export const ELIMINAR = createAction(
-    '[User] Eliminar User',
-    props<{id: number}>());
+export class CargaUsers implements Action {
+  readonly type = UserActionTypes.CARGA_USERS;
+  constructor(public payload: any) {}
+}
+
+export class VerUsers implements Action {
+  readonly type = UserActionTypes.VER_USERS;
+  constructor() {}
+}
+
+export type UserActions =
+  | CrearUser
+  | EditarUser
+  | EliminarUser
+  | CargaUsers
+  | VerUsers;
