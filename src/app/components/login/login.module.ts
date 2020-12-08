@@ -20,7 +20,7 @@ import { LoginComponent } from './login.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    LOGIN_ROUTING
+    LOGIN_ROUTING,
   ]
 })
 export class LoginModule { }

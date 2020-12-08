@@ -15,8 +15,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
-
 
 //@ngrx
 import { appReducers, metaReducers } from './app.reducer';
@@ -38,6 +36,9 @@ import { TokenInterceptor } from './components/auth/token.interceptor';
 import { GestionArticuloService } from './components/gestion-articulo/gestion-articulo.service';
 import { GestionUsuarioService } from './components/gestion-usuario/gestion-usuario.service';
 import { GestionPedidosService } from './components/gestion-pedidos/gestion-pedidos.service';
+
+//Extras
+import { ToastrModule } from 'ngx-toastr';
 
 
 

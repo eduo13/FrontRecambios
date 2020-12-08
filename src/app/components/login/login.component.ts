@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-
      const datosL: DatosLogin = {
       email: this.formulario.get('email').value,
       password: this.formulario.get('password').value
@@ -53,10 +52,9 @@ export class LoginComponent implements OnInit {
       if(data.Token != null){
         this.router.navigateByUrl('/home');
       }else{
+        this.formulario.reset();
         this.resultado = data.Mensaje;
       }
-
-      this.formulario.reset();
     })
   }
 

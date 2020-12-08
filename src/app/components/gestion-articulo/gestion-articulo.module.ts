@@ -31,7 +31,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
     ReactiveFormsModule,
     HttpClientModule,
     ImageUploadModule.forRoot(),
-    GESTION_ARTICULO_ROUTING
+    GESTION_ARTICULO_ROUTING,
   ],
   exports: [ListaArticuloComponent],
   providers: [
