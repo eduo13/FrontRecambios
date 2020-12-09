@@ -64,10 +64,6 @@
                         <input type="number" formControlName="cantidad" class="form-control" placeholder="Cantidad a pedir del articulo" [class.is-invalid]="cantidadNoValido">
                     </div>
 
-                    <!-- Botón borrar -->
-                    <!--         <div class="form group col-md-3" formControlName="buttonArt">
-                            <button type="button" class="btn btn-danger form-control" (click)="borrarArticulo(i)">Borrar de la lista</button>
-                        </div> -->
                     <div class="form group col-md-3">
                         <button type="button" class="btn btn-outline-warning btn-block" (click)="agregarArticulo()">Agregar articulo</button>
                     </div>
@@ -86,7 +82,7 @@
                             <td scope="row">{{articulo.ID_Articulo}}</td>
                             <td scope="row">{{articulo.Nombre}}</td>
                             <td scope="row">{{articulo.Cantidad}}</td>
-                            <td scope="row">boton eliminar</td>
+                            <td scope="row"><button type="button" class="btn btn-danger">Borrar</button></td>
                         </tr>
                     </tbody>
                 </table>
