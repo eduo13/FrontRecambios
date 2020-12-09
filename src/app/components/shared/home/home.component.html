@@ -1,7 +1,53 @@
 <div class="cont">
     <div class="row">
-        <h1>Home</h1>
-        <hr>
-        <h3>Bienvenido {{user.Email}}</h3>
+        <div class="col">
+            <h1>Home</h1>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h2>Bienvenido {{user.Email}}</h2>
+        </div>
+    </div>
+    <div *ngIf="admin">
+        <div class="row">
+            <div class="col">
+                <a href="/gestionUsuario" class="btn btn-primary">Gestionar Usuarios</a>
+            </div>
+            <div class="col">
+                <a href="/gestionArticulo" class="btn btn-primary">Gestionar Articulos</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="/gestionPedido/listadoPedidos" class="btn btn-primary">Listado de pedidos</a>
+            </div>
+            <div class="col">
+                <a href="/gestionArticulo/listadoArticulo" class="btn btn-primary">Listado de todos los Articulos</a>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="gestor">
+        <div class="row">
+            <div class="col">
+                <a href="/gestionStock" class="btn btn-primary">Añadir Stock</a>
+            </div>
+            <div class="col">
+                <a href="/gestionPedido" class="btn btn-primary">Crear Pedido</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="/gestionPedido/listadoPedidos" class="btn btn-primary">Listado de pedidos</a>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="operador">
+        <div class="row">
+            <div class="col">
+                <a href="/gestionPedido" class="btn btn-primary">Crear Pedido</a>
+            </div>
+        </div>
     </div>
 </div>

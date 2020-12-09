@@ -6,7 +6,6 @@ import { GestionArticuloService } from '../../gestion-articulo/gestion-articulo.
 import { CargaArticulos } from '../../gestion-articulo/redux/store/articulo.actions';
 import { CargaPedidos } from '../../gestion-pedidos/redux/store/pedido.actions';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,11 +14,18 @@ import { CargaPedidos } from '../../gestion-pedidos/redux/store/pedido.actions';
 export class HomeComponent implements OnInit {
 
   user: any;
+  admin = false;
+  gestor = false;
+  operador = false;
 
   constructor(private store: Store<AppState>,
               private gestionPedidosService: GestionPedidosService,
               private gestionArticleService: GestionArticuloService) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.admin = (this.user.IdPerfil === 1) ? true : false;
+    this.gestor = (this.user.IdPerfil === 2) ? true : false;
+    this.operador = (this.user.IdPerfil === 3) ? true : false;
   }
 
   ngOnInit(): void {
