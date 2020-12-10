@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
 import { EliminarArticulo } from '../redux/store/articulo.actions';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ListaArticuloComponent implements OnInit {
 
   constructor(public gestionArticuloService:GestionArticuloService,
               private store: Store<AppState>,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private router: Router) { }
 
   ngOnInit(): void {
     //this.gestionArticuloService.getArticleList();
@@ -31,6 +33,13 @@ export class ListaArticuloComponent implements OnInit {
     this.store.select('articulos').subscribe(listaArticulos => {
       this.articulos = listaArticulos.articulos
     })
+  }
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
   }
 
   delArt(id: number){
@@ -45,6 +54,7 @@ export class ListaArticuloComponent implements OnInit {
         }else{
           this.toastr.error("No se ha podido eliminar el articulo con id: "+id)
         }
+        this.reloadComponent();
       })
     }
   }

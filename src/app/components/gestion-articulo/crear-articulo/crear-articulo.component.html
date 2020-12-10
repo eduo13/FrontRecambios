@@ -3,18 +3,18 @@
 
 <div class="row">
     <div class="col">
-        <form autocomplete="off" [formGroup]="forma"  (ngSubmit)="crear()">
+        <form autocomplete="off" [formGroup]="forma" (ngSubmit)="crear()">
 
             <!--Nombre-->
             <div class="form-group">
                 <label><b style="color: red;">*</b> Nombre</label>
                 <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre" [class.is-invalid]="nombreNoValido">
             </div>
-            
+
             <!--Stock inicial-->
             <div class="form-group">
                 <label>Stock</label>
-                <input type="number" class="form-control" formControlName="stock" placeholder="Stock inicial">
+                <input type="number" class="form-control" formControlName="stock" placeholder="Stock inicial" disabled>
                 <small>Si se esta editando un articulo el stock introducido se sumará al que ya tenía, o restar en caso de que el valor sea negativo</small>
             </div>
 
@@ -60,18 +60,14 @@
                 <input type="text" class="form-control" formControlName="precio" placeholder="Precio" [class.is-invalid]="precioNoValido">
             </div>
 
-            <image-upload (uploadFinished)="onUploadFinished($event)"
-                          buttonCaption="Seleccionar imagen"
-                          dropBoxMessage=""
-                          clearButtonCaption="Vaciar"></image-upload>
-            
+            <image-upload (uploadFinished)="onUploadFinished($event)" buttonCaption="Seleccionar imagen" dropBoxMessage="" clearButtonCaption="Vaciar"></image-upload>
+
             <hr>
             <br>
             <div class="form-group text-center">
-                <button type="submit"
-                        class="btn btn-warning w-25">
+                <button type="submit" class="btn btn-warning w-25">
                     <i class="fas fa-user-plus"></i>
-                    Aceptar                  
+                    Aceptar
                 </button>
             </div>
         </form>

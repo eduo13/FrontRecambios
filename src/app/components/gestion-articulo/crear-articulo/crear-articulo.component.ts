@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
 import { EditarArticulo, CrearArticulo } from '../redux/store/articulo.actions';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 
@@ -26,7 +27,8 @@ export class CrearArticuloComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
      private gestionArticuloService: GestionArticuloService,
      private toastr: ToastrService,
-     private store: Store<AppState>) {
+     private store: Store<AppState>,
+     private router: Router) {
     this.crearFormulario();
   }
 
@@ -57,6 +59,13 @@ export class CrearArticuloComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.suscription.unsubscribe();
+  }
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
   }
 
   //Cargar Imagen
@@ -141,8 +150,8 @@ export class CrearArticuloComponent implements OnInit, OnDestroy {
       }else{
       this.toastr.error("Error al añadir el articulo");
       }
-
-      this.forma.reset();
+      this.reloadComponent();
+      //this.forma.reset();
     })
 
   }
