@@ -1,5 +1,19 @@
 .cont{
-    background-image: url("./../../../../assets/fondogaraje.jpg");
+    /* background-image: url("./../../../../assets/fondogaraje.jpg");
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+}
+
+div{
+    text-align: center;
+}
+
+h1, h2{
+    margin: 30px;
+    font-size: 3em;
+}
+
+.btn{
+    font-size: 2em;
+    margin: 30px;
 }
