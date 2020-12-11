@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.reducer';
 import { GestionArticuloService } from '../gestion-articulo/gestion-articulo.service';
@@ -17,40 +18,27 @@ export class GestionStockComponent implements OnInit {
 
   forma: FormGroup;
   resultado: any;
-  suscription: Subscription;
-  upArt: ArticuloModelo;
   idArticulo = 0;
   pedidos: PedidoModelo[] = [];
   articulos: ArticuloModelo[];
 
-  constructor(private fb: FormBuilder,
-              private gestionArticuloService: GestionArticuloService,
-              private store: Store<AppState>) {
-    this.forma = this.fb.group({ stock: [0] });
+  constructor(private fb: FormBuilder, private gestionArticuloService: GestionArticuloService, private store: Store<AppState>, private toastr: ToastrService) {
+    this.forma = this.fb.group({ 
+      stock: [0, Validators.required],
+      idArticulo: [0]
+    });
   }
 
   ngOnInit(): void {
     this.store.select('articulos').subscribe(listaArticulos => {
       this.articulos = listaArticulos.articulos
     })
-    this.suscription = this.gestionArticuloService.obtenerArticulo$().subscribe(data =>{
-      this.upArt = data;
-      this.forma.patchValue({
-        stock: 0
-      });
-
-      this.idArticulo = this.upArt.ID_Articulo;
-    });
-  }
-
-  ngOnDestroy(){
-    this.suscription.unsubscribe();
   }
 
   addStock(){
 
     //Control de validación del formulario
-    if(this.idArticulo === 0){
+    if(this.forma.get('idArticulo').value === 0 && this.forma.get('stock').value === 0){
       return Object.values(this.forma.controls).forEach( control =>{
         if(control instanceof FormGroup){
           Object.values(control.controls).forEach(control => control.markAsTouched());
@@ -63,7 +51,7 @@ export class GestionStockComponent implements OnInit {
 
     //Cargar datos del formulario
     const stock = {
-      ID_Articulo: this.idArticulo,
+      ID_Articulo: this.forma.get('idArticulo').value,
       Cantidad: this.forma.get('stock').value
     }
 
@@ -75,8 +63,12 @@ export class GestionStockComponent implements OnInit {
       if(data['Retcode'] == 0){//si se ha actualizado el stock correctamente
         console.log("registro actualizado correctamente "+ data['Retcode']);
       }
-      this.gestionArticuloService.getArticleList();
+      this.toastr.success("Stock añadido correctamente");
       this.forma.reset();
+      this.forma.patchValue({
+        stock: 0,
+        idArticulo: 0
+      });
       this.idArticulo = 0;
     })
   }

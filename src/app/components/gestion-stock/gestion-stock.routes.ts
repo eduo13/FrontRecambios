@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { GestionStockComponent } from './gestion-stock.component';
 
 const GESTION_STOCK_ROUTES: Routes = [
-    { path: 'addstock', component: GestionStockComponent},
+    { path: '', component: GestionStockComponent},
 
 ];
 
